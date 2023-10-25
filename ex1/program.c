@@ -13,11 +13,25 @@ void ck_assert_msg(bool result, char * msg){
 }
 int main(void)
 {
-  // Own test
+  // Own tests
+
+  /*
+  * Tests for dpl_get_reference_at_index
+  */
   dplist_t *testing = NULL;
-  ck_assert_msg(dpl_get_reference_at_index(testing, 100) == NULL, "dpl_get_reference_at_index should return NULL when presented with a NULL pointer.");
+  ck_assert_msg(dpl_get_reference_at_index(testing, 100) == NULL, "dpl_get_reference_at_index should return NULL when presented with a NULL pointer");
   testing = dpl_create();
-  ck_assert_msg(dpl_get_reference_at_index(testing, 100) == NULL, "dpl_get_reference_at_index should return NULL when presented with an empty list.");
+  ck_assert_msg(dpl_get_reference_at_index(testing, 100) == NULL, "dpl_get_reference_at_index should return NULL when presented with an empty list");
+  dpl_insert_at_index(testing, 'a', 0);
+  ck_assert_msg(dpl_get_reference_at_index(testing, 100) != NULL, "dpl_get_reference_at_index should not return NULL when presented with an unrealistic index");
+  ck_assert_msg(dpl_get_reference_at_index(testing, -100) != NULL, "dpl_get_reference_at_index should not return NULL when presented with a negative index");
+  ck_assert_msg(dpl_get_reference_at_index(testing, 0) != NULL, "dpl_get_reference_at_index should not return NULL when presented with a realistic index");
+  dplist_node_t *a0 = dpl_get_reference_at_index(testing, 0);
+  dplist_node_t *aN = dpl_get_reference_at_index(testing, -100);
+  dplist_node_t *aL = dpl_get_reference_at_index(testing, 100);
+  ck_assert_msg(aN == aL, "dpl_get_reference_at_index should return the same for first and last element if the dpl only has one element");
+  ck_assert_msg(aN == a0, "dpl_get_reference_at_index should return the same for a negative index and index 0");
+
 
   // Tests by the TA
     dplist_t *numbers = NULL;

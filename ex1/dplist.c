@@ -132,13 +132,18 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
     return list->head;
   }
 
-  // When we want to lookup an index which is larger then or equal to the count,
+  // When we want to lookup an index which is larger then the count,
   // we want to return the last element of the pdl
-  if (length <= index){
-    //TODO: Add code here which gets the last element and returns its reference
+  // We can do this by changing the index to be the last possible index
+  if (length < index){
+    index = length-1;
   }
-    
-  dplist_node_t *dummy = NULL;
+
+  // Get the reference at `index`
+  dplist_node_t *dummy = list->head;
+  for (int i = 0; i <= index-1; i++) {
+    dummy = dummy->next;
+  }
 
   //TODO: add your code here
   return dummy;
