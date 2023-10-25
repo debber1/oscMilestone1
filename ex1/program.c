@@ -13,6 +13,13 @@ void ck_assert_msg(bool result, char * msg){
 }
 int main(void)
 {
+  // Own test
+  dplist_t *testing = NULL;
+  ck_assert_msg(dpl_get_reference_at_index(testing, 100) == NULL, "dpl_get_reference_at_index should return NULL when presented with a NULL pointer.");
+  testing = dpl_create();
+  ck_assert_msg(dpl_get_reference_at_index(testing, 100) == NULL, "dpl_get_reference_at_index should return NULL when presented with an empty list.");
+
+  // Tests by the TA
     dplist_t *numbers = NULL;
     numbers = dpl_create();
 

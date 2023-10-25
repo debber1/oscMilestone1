@@ -93,17 +93,55 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index) {
 }
 
 int dpl_size(dplist_t *list) {
+  // If we receive a NULL pointer, return NULL
+  if (list == NULL) {
+    return NULL;
+  }
 
-    //TODO: add your code here
-    return -1;
+  // Trivial case when there are no elements
+  if(list->head == NULL){
+    return 0;
+  }
+
+  // If the list does contain elements, we should count them
+  int count = 1;
+  dplist_node_t *currentNode = list->head;
+  while (currentNode->next != NULL ) {
+    count ++;
+    currentNode = currentNode->next;
+  }
+    return count;
 }
 
 dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
-    //int count = 0 ;
-    dplist_node_t *dummy = NULL;
+  // If we receive a NULL pointer, return NULL
+  if (list == NULL) {
+    return NULL;
+  }
 
-    //TODO: add your code here
-    return dummy;
+  // First get the length of the dpl
+  int length = dpl_size(list);
+
+  // If there are no elements, return NULL
+  if (length == 0){ 
+    return NULL;
+  }
+
+  // When we want to lookup a non-positive integer index
+  if (index <= 0) {
+    return list->head;
+  }
+
+  // When we want to lookup an index which is larger then or equal to the count,
+  // we want to return the last element of the pdl
+  if (length <= index){
+    //TODO: Add code here which gets the last element and returns its reference
+  }
+    
+  dplist_node_t *dummy = NULL;
+
+  //TODO: add your code here
+  return dummy;
 }
 
 element_t dpl_get_element_at_index(dplist_t *list, int index) {
