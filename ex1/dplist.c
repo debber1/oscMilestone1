@@ -49,9 +49,9 @@ void dpl_free(dplist_t **list) {
   // Before we actually free a node, we need to remove it from the list.
   for (int index = length - 1; index >= 0; index--) {
     //TODO: Remove the element before freeing it. DEPENDS ON: implementing remove at index
-    free(dpl_get_reference_at_index((dplist_t*)*list, index));
+    *list = dpl_remove_at_index((dplist_t*)*list, index);
   }
-  free(list);
+  free(*list);
 }
 
 /* Important note: to implement any list manipulation operator (insert, append, delete, sort, ...), always be aware of the following cases:
@@ -104,9 +104,44 @@ dplist_t *dpl_insert_at_index(dplist_t *list, element_t element, int index) {
 }
 
 dplist_t *dpl_remove_at_index(dplist_t *list, int index) {
-
-    //TODO: add your code here
+  // If we receive a NULL pointer, return NULL
+  if (list == NULL) {
     return NULL;
+  }
+
+  // Get the amount of elements 
+  int length = dpl_size(list);
+
+  // If the list is empty, return the same list
+  if(length == 0){
+    return list;
+  }
+
+  // Rework the index to be valid if it is outside of the allowed range
+  if(index < 0){ // Too  small
+    index = 0;
+  }
+  if(index > length){ // Too large
+    index = length - 1;
+  }
+
+  // To remove an element, we should free the element itself and fix the adjacent nodes
+  dplist_node_t *toRemove = dpl_get_reference_at_index(list,  index);
+  dplist_node_t *prevNode = toRemove->prev;
+  dplist_node_t *nextNode = toRemove->next;
+
+  if(prevNode != NULL){
+    prevNode->next = nextNode;
+  }
+
+  if(nextNode != NULL){
+    nextNode->prev = prevNode;
+  }
+
+  free(toRemove);
+
+  //TODO: add your code here
+  return list;
 }
 
 int dpl_size(dplist_t *list) {

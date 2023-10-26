@@ -31,6 +31,7 @@ int main(void)
   dplist_node_t *aL = dpl_get_reference_at_index(testing, 100);
   ck_assert_msg(aN == aL, "dpl_get_reference_at_index should return the same for first and last element if the dpl only has one element");
   ck_assert_msg(aN == a0, "dpl_get_reference_at_index should return the same for a negative index and index 0");
+  dpl_free(&testing);
 
 
   // Tests by the TA
