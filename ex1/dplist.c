@@ -31,10 +31,27 @@ dplist_t *dpl_create() {
 }
 
 void dpl_free(dplist_t **list) {
+  // Stop if the list is NULL
+  if(list == NULL){
+    return;
+  }
 
-    //TODO: add your code here
-    //Do extensive testing with valgrind. 
+  // Get the length of the list
+  int length = dpl_size((dplist_t*)*list);
+  
+  // If the list is empty, just free the dplist_t
+  if(length == 0){
+    free(list);
+    return;
+  }
 
+  // Free every node of the list
+  // Before we actually free a node, we need to remove it from the list.
+  for (int index = length - 1; index >= 0; index--) {
+    //TODO: Remove the element before freeing it. DEPENDS ON: implementing remove at index
+    free(dpl_get_reference_at_index((dplist_t*)*list, index));
+  }
+  free(list);
 }
 
 /* Important note: to implement any list manipulation operator (insert, append, delete, sort, ...), always be aware of the following cases:
