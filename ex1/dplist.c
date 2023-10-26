@@ -45,12 +45,11 @@ void dpl_free(dplist_t **list) {
     return;
   }
 
-  // Free every node of the list
-  // Before we actually free a node, we need to remove it from the list.
+  // Remove all elements from the list
   for (int index = length - 1; index >= 0; index--) {
-    //TODO: Remove the element before freeing it. DEPENDS ON: implementing remove at index
     *list = dpl_remove_at_index((dplist_t*)*list, index);
   }
+  // Free the list itself
   free(*list);
 }
 
@@ -130,17 +129,16 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index) {
   dplist_node_t *prevNode = toRemove->prev;
   dplist_node_t *nextNode = toRemove->next;
 
-  if(prevNode != NULL){
+  if(prevNode != NULL){ // Fix the prev node if it exists
     prevNode->next = nextNode;
   }
 
-  if(nextNode != NULL){
+  if(nextNode != NULL){ // Fix the next node if it exists
     nextNode->prev = prevNode;
   }
 
-  free(toRemove);
+  free(toRemove); // Free the removed node once the list has been fixed
 
-  //TODO: add your code here
   return list;
 }
 
@@ -162,7 +160,7 @@ int dpl_size(dplist_t *list) {
     count ++;
     currentNode = currentNode->next;
   }
-    return count;
+  return count;
 }
 
 dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
@@ -192,13 +190,12 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
   }
 
   // Get the reference at `index`
-  dplist_node_t *dummy = list->head;
+  dplist_node_t *toReturn = list->head;
   for (int i = 0; i <= index-1; i++) {
-    dummy = dummy->next;
+    toReturn = toReturn->next;
   }
 
-  //TODO: add your code here
-  return dummy;
+  return toReturn;
 }
 
 element_t dpl_get_element_at_index(dplist_t *list, int index) {
