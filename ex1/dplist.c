@@ -199,9 +199,15 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
 }
 
 element_t dpl_get_element_at_index(dplist_t *list, int index) {
+  // If we receive a NULL pointer, return NULL
+  if (list == NULL) {
+    return NULL;
+  }
 
-    //TODO: add your code here
-    return '\e';
+  // get the element itself
+  element_t elmnt = dpl_get_reference_at_index(list, index)->element;
+
+  return elmnt;
 }
 
 int dpl_get_index_of_element(dplist_t *list, element_t element) {
