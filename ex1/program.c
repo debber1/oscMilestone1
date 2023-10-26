@@ -31,7 +31,20 @@ int main(void)
   dplist_node_t *aL = dpl_get_reference_at_index(testing, 100);
   ck_assert_msg(aN == aL, "dpl_get_reference_at_index should return the same for first and last element if the dpl only has one element");
   ck_assert_msg(aN == a0, "dpl_get_reference_at_index should return the same for a negative index and index 0");
+
+  /*
+  * Tests for element related functions
+  */
   ck_assert_msg(dpl_get_element_at_index(testing, 0) == 'a', "dpl_get_element_at_index should return the right element which has been put into it");
+
+  ck_assert_msg(dpl_get_index_of_element(testing, 'a') == 0, "dpl_get_index_of_element should return the right index of the element");
+  ck_assert_msg(dpl_get_index_of_element(testing, 'b') == -1, "dpl_get_index_of_element should return -1 when there is no element like the requested");
+  ck_assert_msg(dpl_get_index_of_element(NULL, 'b') == -1, "dpl_get_index_of_element should return -1 when there is no valid list");
+  testing = dpl_remove_at_index(testing, 0);
+  ck_assert_msg(dpl_get_index_of_element(testing, 'b') == -1, "dpl_get_index_of_element should return -1 when there are no elements in the list");
+
+
+  // Free the test list
   dpl_free(&testing);
 
 

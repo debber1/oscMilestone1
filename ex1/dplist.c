@@ -41,7 +41,7 @@ void dpl_free(dplist_t **list) {
   
   // If the list is empty, just free the dplist_t
   if(length == 0){
-    free(list);
+    free(*list);
     return;
   }
 
@@ -125,6 +125,7 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index) {
   }
 
   // To remove an element, we should free the element itself and fix the adjacent nodes
+  // The head node should also be adjusted when the first element gets changed
   dplist_node_t *toRemove = dpl_get_reference_at_index(list,  index);
   dplist_node_t *prevNode = toRemove->prev;
   dplist_node_t *nextNode = toRemove->next;
@@ -135,6 +136,10 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index) {
 
   if(nextNode != NULL){ // Fix the next node if it exists
     nextNode->prev = prevNode;
+  }
+
+  if(index == 0){ // Fix head if needed
+    list->head = nextNode;
   }
 
   free(toRemove); // Free the removed node once the list has been fixed
@@ -199,9 +204,14 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
 }
 
 element_t dpl_get_element_at_index(dplist_t *list, int index) {
-  // If we receive a NULL pointer, return NULL
+  // If we receive a NULL pointer, return '0'
   if (list == NULL) {
-    return NULL;
+    return '0';
+  }
+
+  // If the list is empty return 0
+  if(dpl_size(list) == 0){
+    return '0';
   }
 
   // get the element itself
@@ -211,9 +221,23 @@ element_t dpl_get_element_at_index(dplist_t *list, int index) {
 }
 
 int dpl_get_index_of_element(dplist_t *list, element_t element) {
-
-    //TODO: add your code here
+  // If we receive a NULL pointer, return -1
+  if (list == NULL) {
     return -1;
+  }
+
+  int foundAt = -1;
+  dplist_node_t *currentNode = list->head;
+  int length = dpl_size(list);
+  for (int index = 0; index < length; index++) {
+    element_t currentElement = currentNode->element;
+    if(currentElement == element){
+      foundAt = index;
+      break;
+    }
+  }
+
+  return foundAt;
 }
 
 
