@@ -42,6 +42,10 @@ int main(void)
   ck_assert_msg(dpl_get_index_of_element(NULL, 'b') == -1, "dpl_get_index_of_element should return -1 when there is no valid list");
   testing = dpl_remove_at_index(testing, 0);
   ck_assert_msg(dpl_get_index_of_element(testing, 'b') == -1, "dpl_get_index_of_element should return -1 when there are no elements in the list");
+  dpl_insert_at_index(testing, 'a', 0);
+  dpl_insert_at_index(testing, 'b', 1);
+  ck_assert_msg(dpl_get_index_of_element(testing, 'a') == 0, "dpl_get_index_of_element should return the right index (0)");
+  ck_assert_msg(dpl_get_index_of_element(testing, 'b') == 1, "dpl_get_index_of_element should return the right index (1)");
 
 
   // Free the test list
