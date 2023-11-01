@@ -1,3 +1,4 @@
+#include <stdio.h>
 #define _GNU_SOURCE
 /**
  * \author Robbe Decapmaker <debber@dcpm.be>
@@ -42,7 +43,7 @@ int main(void)
   testing = dpl_remove_at_index(testing, 0);
   ck_assert_msg(dpl_get_index_of_element(testing, "b") == -1, "dpl_get_index_of_element should return -1 when there are no elements in the list");
   dpl_insert_at_index(testing, "a", 0);
-  dpl_insert_at_index(testing, "b", 1);
+  dpl_insert_at_index(testing, "bbbb", 1);
   ck_assert_msg(dpl_get_index_of_element(testing, "a") == 0, "dpl_get_index_of_element should return the right index (0)");
   ck_assert_msg(dpl_get_index_of_element(testing, "bbbb") == 1, "dpl_get_index_of_element should return the right index (1)");
   ck_assert_msg(dpl_get_element_at_index(testing, 0) == "a", "dpl_get_element_at_index should return the right element which has been put into it (a)");

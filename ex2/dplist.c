@@ -202,14 +202,14 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
 }
 
 element_t dpl_get_element_at_index(dplist_t *list, int index) {
-  // If we receive a NULL pointer, return '0'
+  // If we receive a NULL pointer, return NULL
   if (list == NULL) {
-    return '0';
+    return NULL;
   }
 
-  // If the list is empty return 0
+  // If the list is empty return NULL
   if(dpl_size(list) == 0){
-    return '0';
+    return NULL;
   }
 
   // get the element itself
