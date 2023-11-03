@@ -46,22 +46,22 @@ void yourtest1()
         // Test free NULL, don't use callback
         dplist_t *list = NULL;
         dpl_free(&list, false);
-        ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
+        ck_assert_msg(list == NULL, "Failure: expected result to be NULL (1)");
 
         // Test free NULL, use callback
         list = NULL;
         dpl_free(&list, true);
-        ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
+        ck_assert_msg(list == NULL, "Failure: expected result to be NULL (2)");
 
         // Test free empty list, don't use callback
         list = dpl_create(element_copy, element_free, element_compare);
         dpl_free(&list, false);
-        ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
+        ck_assert_msg(list == NULL, "Failure: expected result to be NULL (3)");
 
         // Test free empty list, use callback
         list = dpl_create(element_copy, element_free, element_compare);
         dpl_free(&list, true);
-        ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
+        ck_assert_msg(list == NULL, "Failure: expected result to be NULL (4)");
 
         // TODO : your test scenarios
 

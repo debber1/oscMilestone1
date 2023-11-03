@@ -45,9 +45,28 @@ dplist_t *dpl_create(// callback functions
 }
 
 void dpl_free(dplist_t **list, bool free_element) {
+  // Stop if the list is NULL
+  if(list == NULL){
+    return;
+  }
 
-    //TODO: add your code here
+  // Get the length of the list
+  int length = dpl_size((dplist_t*)*list);
+  
+  // If the list is empty, just free the dplist_t
+  if(length == 0){
+    free(*list);
+    *list = NULL;
+    return;
+  }
 
+  // Remove all elements from the list
+  for (int index = length - 1; index >= 0; index--) {
+    *list = dpl_remove_at_index((dplist_t*)*list, index, free_element);
+  }
+  // Free the list itself
+  free(*list);
+  *list = NULL;
 }
 
 dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool insert_copy) {
@@ -57,9 +76,52 @@ dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool ins
 }
 
 dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
+  // If we receive a NULL pointer, return NULL
+  if (list == NULL) {
+    return NULL;
+  }
 
-    //TODO: add your code here
+  // Get the amount of elements 
+  int length = dpl_size(list);
 
+  // If the list is empty, return the same list
+  if(length == 0){
+    return list;
+  }
+
+  // Rework the index to be valid if it is outside of the allowed range
+  if(index < 0){ // Too  small
+    index = 0;
+  }
+  if(index > length){ // Too large
+    index = length - 1;
+  }
+
+  // To remove an element, we should free the element itself and fix the adjacent nodes
+  // The head node should also be adjusted when the first element gets changed
+  dplist_node_t *toRemove = dpl_get_reference_at_index(list,  index);
+  dplist_node_t *prevNode = toRemove->prev;
+  dplist_node_t *nextNode = toRemove->next;
+
+  if(prevNode != NULL){ // Fix the prev node if it exists
+    prevNode->next = nextNode;
+  }
+
+  if(nextNode != NULL){ // Fix the next node if it exists
+    nextNode->prev = prevNode;
+  }
+
+  if(index == 0){ // Fix head if needed
+    list->head = nextNode;
+  }
+
+  if(free_element){
+    list->element_free((void**)toRemove);
+  }else{
+    free(toRemove); // Free the removed node once the list has been fixed
+  }
+
+  return list;
 }
 
 int dpl_size(dplist_t *list) {
