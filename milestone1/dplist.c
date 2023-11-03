@@ -1,4 +1,6 @@
-
+/*
+ * Author: Robbe Decapmaker <debber@dcpm.be>
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -61,9 +63,24 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
 }
 
 int dpl_size(dplist_t *list) {
+  // If we receive a NULL pointer, return NULL
+  if (list == NULL) {
+    return -1;
+  }
 
-    //TODO: add your code here
+  // Trivial case when there are no elements
+  if(list->head == NULL){
+    return 0;
+  }
 
+  // If the list does contain elements, we should count them
+  int count = 1;
+  dplist_node_t *currentNode = list->head;
+  while (currentNode->next != NULL ) {
+    count ++;
+    currentNode = currentNode->next;
+  }
+  return count;
 }
 
 void *dpl_get_element_at_index(dplist_t *list, int index) {
