@@ -43,7 +43,7 @@ dplist_t *dpl_create(// callback functions
 
 void dpl_free(dplist_t **list, bool free_element) {
   // Stop if the list is NULL
-  if(list == NULL){
+  if(*list == NULL){
     return;
   }
 
@@ -83,7 +83,6 @@ dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool ins
     list_node->element = element;
   }
 
-  list_node->element = element;
   if (list->head == NULL) { // covers case 1
     list_node->prev = NULL;
     list_node->next = NULL;
@@ -154,10 +153,9 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
   }
 
   if(free_element){
-    list->element_free((void**)toRemove);
-  }else{
-    free(toRemove); // Free the removed node once the list has been fixed
-  }
+    list->element_free(&toRemove->element);
+  } 
+  free(toRemove); // Free the removed node once the list has been fixed
 
   return list;
 }
