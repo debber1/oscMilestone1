@@ -257,7 +257,34 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
 }
 
 void *dpl_get_element_at_reference(dplist_t *list, dplist_node_t *reference) {
+  // If we receive a NULL pointer, return NULL
+  if (list == NULL) {
+    return NULL;
+  }
 
+  // If the reference is NULL, return NULL
+  if (reference == NULL) {
+    return NULL;
+  }
+
+  // First get the length of the dpl
+  int length = dpl_size(list);
+
+  // If there are no elements, return NULL
+  if (length == 0){ 
+    return NULL;
+  }
+
+  void *toReturn = NULL;
+  dplist_node_t *currentNode = list->head;
+  for (int i = 0; i <= length-1; i++) {
+    if (currentNode == reference) {
+      toReturn = currentNode->element;
+      break;
+    } 
+    currentNode = currentNode->next;
+  }
+  return toReturn;
 }
 
 
