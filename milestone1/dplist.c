@@ -184,15 +184,41 @@ int dpl_size(dplist_t *list) {
 }
 
 void *dpl_get_element_at_index(dplist_t *list, int index) {
+  // If we receive a NULL pointer, return NULL
+  if (list == NULL) {
+    return NULL;
+  }
 
-    //TODO: add your code here
+  // If the list is empty return 0
+  if(dpl_size(list) == 0){
+    return NULL;
+  }
 
+  // get the element itself
+  void *elmnt = dpl_get_reference_at_index(list, index)->element;
+
+  return elmnt;
 }
 
 int dpl_get_index_of_element(dplist_t *list, void *element) {
+  // If we receive a NULL pointer, return -1
+  if (list == NULL) {
+    return -1;
+  }
 
-    //TODO: add your code here
+  int foundAt = -1;
+  dplist_node_t *currentNode = list->head;
+  int length = dpl_size(list);
+  for (int index = 0; index < length; index++) {
+    void *currentElement = currentNode->element;
+    if(list->element_compare(currentElement, currentNode->element)){
+      foundAt = index;
+      break;
+    }
+    currentNode = currentNode->next;
+  }
 
+  return foundAt;
 }
 
 dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
@@ -231,8 +257,6 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
 }
 
 void *dpl_get_element_at_reference(dplist_t *list, dplist_node_t *reference) {
-
-    //TODO: add your code here
 
 }
 
