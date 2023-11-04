@@ -64,6 +64,40 @@ void yourtest1()
         ck_assert_msg(list == NULL, "Failure: expected result to be NULL (4)");
 
         // TODO : your test scenarios
+        my_element_t x;
+        char* name;
+        asprintf(&name,"Jeroen");
+        x.name = name;
+
+        list = dpl_create(element_copy, element_free, element_compare);
+
+        printf("Adding 3 elements to the list\n");
+        x.id = 1;
+        list = dpl_insert_at_index(list, &x, 0, true);
+
+        x.id = 3;
+        list = dpl_insert_at_index(list, &x, 1, true);
+
+        x.id = 7;
+        list = dpl_insert_at_index(list, &x, 5, true);
+
+        printf("list size = %d\n", dpl_size(list));
+
+        printf("Adding one extra element\n");
+        x.id = 5;
+        list = dpl_insert_at_index(list, &x, 2, true);
+        int size;
+
+        do {
+            int index;
+            dplist_node_t * dummy;
+            int * element;
+            size = dpl_size(list);
+            index = 1;
+            dummy = dpl_get_reference_at_index(list, index);
+            element = dpl_get_element_at_reference(list, dummy);
+            list = dpl_remove_at_index(list, index, true);
+        } while (size > 0);
 
         }
 
