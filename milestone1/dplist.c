@@ -130,7 +130,7 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
   if(index < 0){ // Too  small
     index = 0;
   }
-  if(index > length){ // Too large
+  if(index >= length){ // Too large
     index = length - 1;
   }
 
