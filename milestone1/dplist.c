@@ -12,33 +12,26 @@
  */
 
 struct dplist_node {
-    dplist_node_t *prev, *next;
-    void *element;
+  dplist_node_t *prev, *next;
+  void *element;
 };
 
 struct dplist {
-    dplist_node_t *head;
-
-    void *(*element_copy)(void *src_element);
-
-    void (*element_free)(void **element);
-
-    int (*element_compare)(void *x, void *y);
+  dplist_node_t *head;
+  void *(*element_copy)(void *src_element);
+  void (*element_free)(void **element);
+  int (*element_compare)(void *x, void *y);
 };
 
 
-dplist_t *dpl_create(// callback functions
-        void *(*element_copy)(void *src_element),
-        void (*element_free)(void **element),
-        int (*element_compare)(void *x, void *y)
-) {
-    dplist_t *list;
-    list = malloc(sizeof(struct dplist));
-    list->head = NULL;
-    list->element_copy = element_copy;
-    list->element_free = element_free;
-    list->element_compare = element_compare;
-    return list;
+dplist_t *dpl_create(void *(*element_copy)(void *src_element), void (*element_free)(void **element), int (*element_compare)(void *x, void *y)) {
+  dplist_t *list;
+  list = malloc(sizeof(struct dplist));
+  list->head = NULL;
+  list->element_copy = element_copy;
+  list->element_free = element_free;
+  list->element_compare = element_compare;
+  return list;
 }
 
 void dpl_free(dplist_t **list, bool free_element) {
@@ -79,7 +72,7 @@ dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool ins
   // insert the element into the struct
   if (insert_copy) {
     list_node->element = list->element_copy(element);
-  }else{
+  } else {
     list_node->element = element;
   }
 
@@ -108,8 +101,8 @@ dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool ins
       ref_at_index->next = list_node;
     }
   }
-  return list;
 
+  return list;
 }
 
 dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
@@ -155,6 +148,7 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
   if(free_element){
     list->element_free(&toRemove->element);
   } 
+
   free(toRemove); // Free the removed node once the list has been fixed
 
   return list;
@@ -178,6 +172,7 @@ int dpl_size(dplist_t *list) {
     count ++;
     currentNode = currentNode->next;
   }
+
   return count;
 }
 
@@ -282,7 +277,6 @@ void *dpl_get_element_at_reference(dplist_t *list, dplist_node_t *reference) {
     } 
     currentNode = currentNode->next;
   }
+
   return toReturn;
 }
-
-
